@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # korvaa tämä omalla käyttäjätunnuksellasi
 USERNAME="aopkarja"
 # korvaa tämä haluamallasi kansion nimellä
