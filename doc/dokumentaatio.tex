@@ -1,0 +1,46 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{emp}
+\usepackage{ifpdf,graphicx}
+\ifpdf
+  \DeclareGraphicsRule{*}{mps}{*}{}
+\fi
+
+\begin{document}
+\begin{empfile}
+\begin{empcmds}
+input metauml;
+\end{empcmds}
+\section{Johdanto}
+Tsohachanin tarkoituksena on tarjota aito lauta kokemus. Tsohachan mahdollistaa käyttäjien luoda uusia lankoja ja lähettää uusia viestejä jo olemassa oleviin lankoihin. Thohachan mahdollistaa hilpeiden meemujen jakamisen kaikille niistä tykkääville. Tsohachan toimii php + postgresql combolla. Työ toimii laitoksen users serverillä. 
+\section{Käyttötapaukset}
+\centering
+\begin{emp}[classdiag](200, 100)
+Usecase.C("Creating thread");
+C.ne = (w/2, 1 * h/5);
+Usecase.S("Sending message");
+S.ne = (w/2, 2 * h/5);
+Usecase.D("Deleting thread");
+D.ne = (w/2, 3 * h/5);
+Usecase.B("Banning IP");
+B.ne = (w/2, 4 * h/5);
+Usecase.L("Login");
+L.ne = (w/2, 5 * h/5);
+Actor.U("User");
+U.ne = (0, h/2);
+Actor.A("Admin");
+A.ne = (w, h/2);
+drawObjects(C, S, U, A, D, B, L);
+link(association)(U.e -- C.w);
+link(association)(U.e -- S.w);
+link(association)(A.w -- C.e);
+link(association)(A.w -- S.e);
+link(association)(A.w -- D.e);
+link(association)(A.w -- L.e);
+\end{emp}
+\end{empfile}
+\end{document}
+
