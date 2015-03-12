@@ -17,8 +17,8 @@ input metauml;
 \section{Johdanto}
 Tsohachanin tarkoituksena on tarjota aito lauta kokemus. Tsohachan mahdollistaa käyttäjien luoda uusia lankoja ja lähettää uusia viestejä jo olemassa oleviin lankoihin. Thohachan mahdollistaa hilpeiden meemujen jakamisen kaikille niistä tykkääville. Tsohachan toimii php + postgresql combolla. Työ toimii laitoksen users serverillä. 
 \section{Käyttötapaukset}
-\centering
-\begin{emp}[classdiag](200, 100)
+\begin{center}
+\begin{emp}[tapaukset](200, 100)
 Usecase.C("Creating thread");
 C.ne = (w/2, 1 * h/5);
 Usecase.S("Sending message");
@@ -41,6 +41,35 @@ link(association)(A.w -- S.e);
 link(association)(A.w -- D.e);
 link(association)(A.w -- L.e);
 \end{emp}
+\end{center}
+\section{Järjestelmän tietosisältö}
+\begin{center}
+\begin{emp}[tieto](200, 100)
+Class.T("Thread")()();
+T.ne = (0, 0);
+Class.P("Post")()();
+P.ne = (w, 0);
+Class.O("Board")()();
+O.ne = (0, h);
+Class.E("User")()();
+E.ne = (w, h);
+Class.M("Admin")()();
+M.ne = (w/2, h);
+drawObjects(T, P, O, E, M);
+draw T.e -- P.w;
+item(iAssoc)("1")(obj.nw = T.e);
+item(iAssoc)("1..*")(obj.ne = P.w);
+draw O.s -- T.n;
+item(iAssoc)("1")(obj.nw = O.s);
+item(iAssoc)("0..*")(obj.sw = T.n);
+draw E.s -- P.n;
+item(iAssoc)("1")(obj.nw = E.s);
+item(iAssoc)("1..*")(obj.sw = P.n);
+draw O.e -- M.w;
+item(iAssoc)("1..*")(obj.nw = O.e);
+item(iAssoc)("1..*")(obj.ne = M.w);
+\end{emp}
+\end{center}
 \end{empfile}
 \end{document}
 
