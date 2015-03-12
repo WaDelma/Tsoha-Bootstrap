@@ -3,7 +3,7 @@
 Yleisiä linkkejä:
 
 * [Linkki sovellukseeni](http://aopkarja.users.cs.helsinki.fi/tsohachan/)
-* [Linkki dokumentaatiooni](https://github.com/WaDelma/Tsohachan/doc/dokumentaatio.pdf)
+* [Linkki dokumentaatiooni](https://github.com/WaDelma/Tsohachan/blob/master/doc/dokumentaatio.pdf)
 
 ## Työn aihe
 
