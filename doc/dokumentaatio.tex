@@ -20,19 +20,19 @@ Tsohachanin tarkoituksena on tarjota aito lauta kokemus. Tsohachan mahdollistaa 
 \begin{center}
 \begin{emp}[tapaukset](200, 100)
 Usecase.C("Creating thread");
-C.ne = (w/2, 1 * h/5);
+C.ne = (.5w, 0);
 Usecase.S("Sending message");
-S.ne = (w/2, 2 * h/5);
+S.ne = (.5w, .25h);
 Usecase.D("Deleting thread");
-D.ne = (w/2, 3 * h/5);
+D.ne = (.5w, .5h);
 Usecase.B("Banning IP");
-B.ne = (w/2, 4 * h/5);
+B.ne = (.5w, .75h);
 Usecase.L("Login");
-L.ne = (w/2, 5 * h/5);
+L.ne = (.5w, h);
 Actor.U("User");
-U.ne = (0, h/2);
+U.ne = (0, .25h);
 Actor.A("Admin");
-A.ne = (w, h/2);
+A.ne = (w, .5h);
 drawObjects(C, S, U, A, D, B, L);
 link(association)(U.e -- C.w);
 link(association)(U.e -- S.w);
@@ -44,7 +44,7 @@ link(association)(A.w -- L.e);
 \end{center}
 \section{Järjestelmän tietosisältö}
 \begin{center}
-\begin{emp}[tieto](200, 100)
+\begin{emp}[tieto](150, 75)
 Class.T("Thread")()();
 T.ne = (0, 0);
 Class.P("Post")()();
@@ -68,6 +68,50 @@ item(iAssoc)("1..*")(obj.sw = P.n);
 draw O.e -- M.w;
 item(iAssoc)("1..*")(obj.nw = O.e);
 item(iAssoc)("1..*")(obj.ne = M.w);
+\end{emp}
+\end{center}
+\begin{center}
+\begin{emp}[kanta](200, 125)
+Class.H("Thread")("<<key>> id: int",
+				 "<<key, fkey>> boardId: String",
+				 "creationTime: timestamp")();
+H.ne = (w, 0);
+Class.R("Board")("<<key>> id: String",
+				"description: String")();
+R.ne = (0, 0);
+Class.Q("BoardAdmin")("<<key, fkey>> adminId: String",
+					 "<<key, fkey>> boardId: String")();
+Q.ne = (.25w, .45h);
+Class.N("Admin")("<<key>> name: String",
+				"email: String",
+				"hash: int",
+				"salt: int")();
+N.ne = (0, h);
+Class.J("Post")("<<key>> id: int",
+				"<<key, fkey>> threadId: int",
+				"<<fkey>> userID",
+				"content: String")();
+J.ne = (w, h);
+Class.W("User")("<<key>> id: int",
+				"ip: String")();
+W.ne = (w, .5h);
+Class.Y("Banned")("<<key>> ip: String")();
+Y.ne = (.5w, 0);
+drawObjects(H, R, Q, N, J, W, Y);
+def lerp(expr a, b, p) =
+	(1-p)*a+p*b
+enddef;
+pair adminid, adminfid, boardid, boardfid;
+adminid := lerp(N.nw, N.sw, .3);
+adminfid := lerp(Q.nw, Q.sw, .45);
+boardid := lerp(R.nw, R.sw, .4);
+boardfid := lerp(Q.nw, Q.sw, .65);
+draw adminid -- adminid-(10, 0);
+draw adminid-(10, 0) -- ((xpart N.sw) - 10, ypart adminfid);
+draw ((xpart N.sw) - 10, ypart adminfid) -- adminfid;
+draw boardid -- boardid-(10, 0);
+draw boardid-(10, 0) -- ((xpart R.nw) - 10, ypart boardfid);
+draw ((xpart R.nw) - 10, ypart boardfid) -- boardfid;
 \end{emp}
 \end{center}
 \end{empfile}
