@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-header">
+    <h1>/{{board}}/</h1>
+</div>
+<p>
+    {% for thread in threads %}
+    <a href="{{base_path}}/{{board}}/{{thread}}">{{thread}}</a><br/>
+    {% else %}
+    No threads in this board.
+    {% endfor %}
+</p>
+{% endblock %}

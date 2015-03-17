@@ -8,7 +8,7 @@
 class BoardController extends BaseController {
 
     public static function board($board) {
-        echo $board;
+        View::make('board.html', array('boards' => array('v', 'pol'), 'board' => $board, 'threads' => array(1, 102, 4035)));
     }
 
 }

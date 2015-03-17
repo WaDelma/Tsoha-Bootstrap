@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-header">
+    <h1>/{{board}}/</h1>
+</div>
+<p>
+    {% for message in messages %}
+<p>{{message}}</p><br/>
+{% endfor %}
+<form>
+    Create message:<br>
+    <textarea></textarea><br>
+    <button>Send</button>
+</form>
+</p>
+{% endblock %}
