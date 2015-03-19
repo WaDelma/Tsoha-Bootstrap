@@ -73,45 +73,65 @@ item(iAssoc)("1..*")(obj.ne = M.w);
 \begin{center}
 \begin{emp}[kanta](200, 125)
 Class.H("Thread")("<<key>> id: int",
-				 "<<key, fkey>> boardId: String",
+				 "<<fkey>> boardId: String",
 				 "creationTime: timestamp")();
-H.ne = (w, 0);
+H.ne = (w, h);
 Class.R("Board")("<<key>> id: String",
 				"description: String")();
 R.ne = (0, 0);
-Class.Q("BoardAdmin")("<<key, fkey>> adminId: String",
-					 "<<key, fkey>> boardId: String")();
-Q.ne = (.25w, .45h);
+Class.Q("BoardAdmin")("<<key>> id",
+					 "<<fkey>> adminId: String",
+					 "<<fkey>> boardId: String")();
+Q.ne = (.15w, .45h);
 Class.N("Admin")("<<key>> name: String",
 				"email: String",
 				"hash: int",
 				"salt: int")();
 N.ne = (0, h);
 Class.J("Post")("<<key>> id: int",
-				"<<key, fkey>> threadId: int",
+				"<<fkey>> threadId: int",
 				"<<fkey>> userID",
 				"content: String")();
-J.ne = (w, h);
+J.ne = (w, .55h);
 Class.W("User")("<<key>> id: int",
 				"ip: String")();
-W.ne = (w, .5h);
+W.ne = (.45w, 0);
 Class.Y("Banned")("<<key>> ip: String")();
-Y.ne = (.5w, 0);
+Y.ne = (w, 0);
 drawObjects(H, R, Q, N, J, W, Y);
 def lerp(expr a, b, p) =
 	(1-p)*a+p*b
 enddef;
-pair adminid, adminfid, boardid, boardfid;
+pair adminid, adminfid;
 adminid := lerp(N.nw, N.sw, .3);
 adminfid := lerp(Q.nw, Q.sw, .45);
+draw adminid -- adminid-(10, 0);
+draw adminid-(10, 0) -- (xpart N.sw - 10, ypart adminfid);
+draw ((xpart N.sw) - 10, ypart adminfid) -- adminfid;
+pair boardid, boardfid;
 boardid := lerp(R.nw, R.sw, .4);
 boardfid := lerp(Q.nw, Q.sw, .65);
-draw adminid -- adminid-(10, 0);
-draw adminid-(10, 0) -- ((xpart N.sw) - 10, ypart adminfid);
-draw ((xpart N.sw) - 10, ypart adminfid) -- adminfid;
 draw boardid -- boardid-(10, 0);
-draw boardid-(10, 0) -- ((xpart R.nw) - 10, ypart boardfid);
+draw boardid-(10, 0) -- (xpart R.nw - 10, ypart boardfid);
 draw ((xpart R.nw) - 10, ypart boardfid) -- boardfid;
+pair threadid, threadfid;
+threadid := lerp(H.ne, H.se, .4);
+threadfid := lerp(J.ne, J.se, .5);
+draw threadid -- threadid+(10, 0);
+draw threadid+(10, 0) -- threadfid+(10, 0);
+draw threadfid+(10, 0) -- threadfid;
+pair userid, userfid;
+userid := lerp(W.ne, W.se, .4);
+userfid := lerp(J.nw, J.sw, .65);
+draw userid -- userid+(10, 0);
+draw userid+(10, 0) -- W.ne+(10, 3);
+draw W.ne+(10, 3) -- (xpart userfid - 10, ypart W.nw + 3);
+draw (xpart userfid - 10, ypart W.nw + 3) -- userfid-(10, 0);
+draw userfid-(10, 0) -- userfid;
+pair boardthid, boardthfid;
+boardthid := lerp(H.nw, H.sw, .6);
+boardthfird := lerp(R.ne, R.se, .4);
+
 \end{emp}
 \end{center}
 \end{empfile}
