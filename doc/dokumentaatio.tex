@@ -16,6 +16,15 @@ input metauml;
 \end{empcmds}
 \section{Johdanto}
 Tsohachanin tarkoituksena on tarjota aito lauta kokemus. Tsohachan mahdollistaa käyttäjien luoda uusia lankoja ja lähettää uusia viestejä jo olemassa oleviin lankoihin. Thohachan mahdollistaa hilpeiden meemujen jakamisen kaikille niistä tykkääville. Tsohachan toimii php + postgresql combolla. Työ toimii laitoksen users serverillä. 
+\section{Käyttäjäryhmät}
+Käyttäjä:
+\begin{itemize}
+\item Kaikki, jotka käyvät sivustolla.
+\end{itemize}
+Adminit:
+\begin{itemize}
+\item Ne jotka hallitsevat lautoja
+\end{itemize}
 \section{Käyttötapaukset}
 \begin{center}
 \begin{emp}[tapaukset](200, 100)
@@ -42,6 +51,26 @@ link(association)(A.w -- D.e);
 link(association)(A.w -- L.e);
 \end{emp}
 \end{center}
+Login:
+\begin{itemize}
+\item Admin tunnistautuu kirjautumalla sisään
+\end{itemize}
+Banning IP:
+\begin{itemize}
+\item Admin estää tietyn IPn
+\end{itemize}
+Deleting thread:
+\begin{itemize}
+\item Admin poistaa huonon langan
+\end{itemize}
+Sending message:
+\begin{itemize}
+\item Käyttäjä lähettää viestin lankaan
+\end{itemize}
+Creating thread:
+\begin{itemize}
+\item Käyttäjä luo uuden langan
+\end{itemize}
 \section{Järjestelmän tietosisältö}
 \begin{center}
 \begin{emp}[tieto](150, 75)
@@ -71,10 +100,9 @@ item(iAssoc)("1..*")(obj.ne = M.w);
 \end{emp}
 \end{center}
 \begin{center}
-\begin{emp}[kanta](200, 125)
+\begin{emp}[kanta](200, 150)
 Class.H("Thread")("<<key>> id: int",
-				 "<<fkey>> boardId: String",
-				 "creationTime: timestamp")();
+				 "<<fkey>> boardId: String")();
 H.ne = (w, h);
 Class.R("Board")("<<key>> id: String",
 				"description: String")();
@@ -130,8 +158,12 @@ draw (xpart userfid - 10, ypart W.nw + 3) -- userfid-(10, 0);
 draw userfid-(10, 0) -- userfid;
 pair boardthid, boardthfid;
 boardthid := lerp(H.nw, H.sw, .6);
-boardthfird := lerp(R.ne, R.se, .4);
-
+boardthfid := lerp(R.ne, R.se, .4);
+draw boardthid -- boardthid-(10,0);
+draw boardthid-(10,0) -- (xpart boardthid - 10, ypart R.nw + 10);
+draw (xpart boardthid - 10, ypart R.nw + 10) -- (xpart boardthfid + 5, ypart R.nw + 10);
+draw (xpart boardthfid + 5, ypart R.nw + 10) -- boardthfid + (5, 0);
+draw boardthfid + (5, 0) -- boardthfid;
 \end{emp}
 \end{center}
 \end{empfile}

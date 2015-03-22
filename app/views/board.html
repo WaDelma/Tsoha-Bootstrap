@@ -4,10 +4,15 @@
     <h1>/{{board}}/</h1>
 </div>
 <p>
-    {% for thread in threads %}
+    {% for thread, content in threads %}
     <a href="{{base_path}}/{{board}}/{{thread}}">{{thread}}</a><br/>
-    {% else %}
-    No threads in this board.
-    {% endfor %}
+    {% for message in content %}
+<p>
+    {{message}}
+</p>
+{% endfor %}
+{% else %}
+No threads in this board.
+{% endfor %}
 </p>
 {% endblock %}
