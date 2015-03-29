@@ -40,7 +40,7 @@
                     <ul class="nav navbar-nav">
                         <!-- Navigaation linkit -->
                         {% for board in boards %}
-                        <li><a href="{{base_path}}/{{board}}">{{board}}</a></li>
+                        <li><a href="{{base_path}}/{{board.name}}">{{board.name}}</a></li>
                         {% endfor %}
                     </ul>
                 </div>

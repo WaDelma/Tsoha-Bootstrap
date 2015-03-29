@@ -5,12 +5,15 @@
 </div>
 <p>
     {% for message in messages %}
-<p>{{message}}</p><br/>
+<div class="post">
+    {{message.userid}}
+    {{message.content|escape("markup")|raw}}
+</div>
 {% endfor %}
-<form>
+<form method="post" action="{{base_path}}/{{board}}/{{thread}}/send">
     Create message:<br>
-    <textarea></textarea><br>
-    <button>Send</button>
+    <textarea name="content"></textarea><br>
+    <button type="submit">Send</button>
 </form>
 </p>
 {% endblock %}

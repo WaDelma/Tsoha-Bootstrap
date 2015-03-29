@@ -7,12 +7,19 @@
     {% for thread, content in threads %}
     <a href="{{base_path}}/{{board}}/{{thread}}">{{thread}}</a><br/>
     {% for message in content %}
-<p>
-    {{message}}
-</p>
+<div class="post">
+    {{message.userid}}
+    {{message.content|escape("markup")|raw}}
+</div>
+
 {% endfor %}
 {% else %}
 No threads in this board.
 {% endfor %}
+<form method="post" action="{{base_path}}/{{board}}/send">
+    Create thread:<br>
+    <textarea name="content"></textarea><br>
+    <button type="submit">Send</button>
+</form>
 </p>
 {% endblock %}

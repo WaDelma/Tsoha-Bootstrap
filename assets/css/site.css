@@ -1,10 +1,41 @@
+body {
+    background-color: #CDC3D9;
+    color: #462969;
+}
 #main-container{
     max-width: 1200px;
     padding: 10px 25px;
     margin: 0px auto;
+    background-color: #A191B6;
 }
 
 .navbar .container-fluid{
     max-width: 1200px;
     margin: 0px auto;
+    background-color: #C4DCCF;
 }
+
+.post {
+    color: #270854;
+    background-color: #7D679A;
+}
+
+a {
+    color: #256E47;
+    font-weight: bold;
+}
+
+a:hover {
+    color: #408660;
+    font-weight: bold;
+}
+
+/*textarea {
+    background-color: #FFFDE3;
+    color: #9B9234;
+}
+
+button {
+    background-color: #FFFDE3;
+    color: #9B9234;
+}*/

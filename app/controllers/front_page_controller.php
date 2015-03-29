@@ -8,7 +8,11 @@
 class FrontPageController extends BaseController {
 
     public static function frontpage() {
-        View::make('home.html', array('boards' => array('v', 'pol')));
+        $boards = Board::all();
+        $users = User::count();
+        $posts = Post::count();
+        $threads = Thread::count();
+        View::make('home.html', array('boards' => $boards, 'users' => $users, 'posts' => $posts, 'threads' => $threads));
     }
 
 }

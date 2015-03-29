@@ -7,8 +7,28 @@
  */
 class ThreadController extends BaseController {
 
+    public static function send($board, $thread) {
+        if (parent::isBanned()) {
+            View::make('banned.html');
+        } else {
+            $ip = $_SERVER['REMOTE_ADDR'];
+            $user = User::findByIp($ip);
+            if (!$user) {
+                $user = User::create($ip);
+            }
+            $post = array('content' => filter_input(INPUT_POST, 'content'));
+            $post['userid'] = $user->id;
+            $post['threadid'] = $thread;
+            $p = new Post($post);
+            $p->save();
+            Redirect::to('/' . $board . '/' . $thread);
+        }
+    }
+
     public static function thread($board, $thread) {
-        View::make('thread.html', array('boards' => array('v', 'pol'), 'board' => $board, 'messages' => array('lol', 'xD', 'asd')));
+        $boards = Board::all();
+        $posts = Post::all($thread);
+        View::make('thread.html', array('boards' => $boards, 'board' => $board, 'thread' => $thread, 'messages' => $posts));
     }
 
 }

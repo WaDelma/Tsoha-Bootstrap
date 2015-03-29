@@ -25,7 +25,7 @@ PRIMARY KEY(adminId, boardId)
 CREATE TABLE Useri
 (
 id SERIAL PRIMARY KEY,
-ip String varchar(25) NOT NULL
+ip varchar(25) NOT NULL
 );
 
 CREATE TABLE Thread
