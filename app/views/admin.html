@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-header">
+    <h1>This is only for admins!</h1>
+</div>
+<p>
+<form method="post" action="{{base_path}}/admin">
+    Name:<br/>
+    <input type="text" name="name">
+    <br/>
+    Password:<br/>
+    <input type="password" name="password">
+    <br/>
+    <button type="submit">Login</button>
+</form>
+</p>
+{% endblock %}

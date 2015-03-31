@@ -28,7 +28,8 @@ class ThreadController extends BaseController {
     public static function thread($board, $thread) {
         $boards = Board::all();
         $posts = Post::all($thread);
-        View::make('thread.html', array('boards' => $boards, 'board' => $board, 'thread' => $thread, 'messages' => $posts));
+        $admin = parent::get_user_logged_in();
+        View::make('thread.html', array('boards' => $boards, 'board' => $board, 'thread' => $thread, 'messages' => $posts, 'admin' => $admin));
     }
 
 }

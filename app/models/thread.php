@@ -42,8 +42,8 @@ class Thread extends BaseModel {
     }
 
     public static function findForBoard($board) {
-        $query = DB::connection()->prepare("SELECT t.* FROM Thread AS t JOIN board as b ON b.id = t.boardId WHERE b.name = :boardname ORDER BY t.id DESC");
-        $query->execute(array('boardname' => $board));
+        $query = DB::connection()->prepare("SELECT t.* FROM Thread AS t JOIN board as b ON b.id = t.boardId WHERE b.id = :boardid ORDER BY t.id DESC");
+        $query->execute(array('boardid' => $board));
         $rows = $query->fetchAll();
         $threads = array();
         foreach ($rows as $row) {

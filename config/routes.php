@@ -4,8 +4,16 @@ $routes->get('/', function() {
     FrontPageController::frontpage();
 });
 
-$routes->get('/hiekkalaatikko', function() {
-    HelloWorldController::sandbox();
+$routes->post('/admin', function() {
+    AdminController::login();
+});
+
+$routes->get('/admin', function() {
+    AdminController::page();
+});
+
+$routes->post('/ban', function() {
+    AdminController::ban();
 });
 
 $routes->post('/:board/:thread/send', function($board, $thread) {

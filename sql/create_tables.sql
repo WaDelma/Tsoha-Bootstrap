@@ -4,8 +4,7 @@ CREATE TABLE Admin
 id SERIAL PRIMARY KEY,
 name varchar(30),
 email varchar(30),
-hash int NOT NULL,
-salt int NOT NULL
+hash varchar(100) NOT NULL
 );
 
 CREATE TABLE Board

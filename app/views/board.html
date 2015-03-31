@@ -1,14 +1,28 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="page-header">
-    <h1>/{{board}}/</h1>
+    <h1>/{{board.name}}/</h1>
+    <p>
+        {{board.description|escape("markup")|raw}}
+    </p>
 </div>
 <p>
-    {% for thread, content in threads %}
-    <a href="{{base_path}}/{{board}}/{{thread}}">{{thread}}</a><br/>
-    {% for message in content %}
+<form method="post" action="{{base_path}}/{{board.name}}/send">
+    Create thread:<br>
+    <textarea name="content"></textarea><br>
+    <button type="submit">Send</button>
+</form>
+{% for thread, content in threads %}
+<a href="{{base_path}}/{{board.name}}/{{thread}}">{{thread}}</a><br/>
+{% for message in content %}
 <div class="post">
     {{message.userid}}
+    {% if admin %}
+    <form method="post" action="{{base_path}}/ban">
+        <input type="hidden" value="{{message.userid}}"/>
+        <button type="submit">Ban</button>
+    </form>
+    {% endif %}
     {{message.content|escape("markup")|raw}}
 </div>
 
@@ -16,10 +30,5 @@
 {% else %}
 No threads in this board.
 {% endfor %}
-<form method="post" action="{{base_path}}/{{board}}/send">
-    Create thread:<br>
-    <textarea name="content"></textarea><br>
-    <button type="submit">Send</button>
-</form>
 </p>
 {% endblock %}

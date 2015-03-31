@@ -20,12 +20,15 @@ class BoardController extends BaseController {
 
     public static function board($board) {
         $boards = Board::all();
-        $threads = Thread::findForBoard($board);
+        $b = Board::findByName($board);
+        $threads = Thread::findForBoard($b->id);
         $ts = array();
+//        Kint::dump($threads);
         foreach ($threads as $thread) {
             $ts[$thread->id] = Post::findNewestForThread($thread, 3);
         }
-        View::make('board.html', array('boards' => $boards, 'board' => $board, 'threads' => $ts));
+        $admin = parent::get_user_logged_in();
+        View::make('board.html', array('boards' => $boards, 'board' => $b, 'threads' => $ts, 'admin' => $admin));
     }
 
 }

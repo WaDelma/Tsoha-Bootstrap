@@ -7,6 +7,12 @@
     {% for message in messages %}
 <div class="post">
     {{message.userid}}
+    {% if admin %}
+    <form method="post" action="{{base_path}}/ban">
+        <input type="hidden" value="{{message.userid}}"/>
+        <button type="submit">Ban</button>
+    </form>
+    {% endif %}
     {{message.content|escape("markup")|raw}}
 </div>
 {% endfor %}
