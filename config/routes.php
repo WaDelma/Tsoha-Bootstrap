@@ -4,8 +4,20 @@ $routes->get('/', function() {
     FrontPageController::frontpage();
 });
 
+$routes->post('/create', function() {
+    BoardController::createBoard();
+});
+
+$routes->get('/create', function() {
+    BoardController::create();
+});
+
 $routes->post('/admin', function() {
     AdminController::login();
+});
+
+$routes->get('/logout', function() {
+    AdminController::logout();
 });
 
 $routes->get('/admin', function() {
@@ -26,6 +38,10 @@ $routes->get('/:board/:thread', function($board, $thread) {
 
 $routes->post('/:board/send', function($board) {
     BoardController::send($board);
+})->conditions(array('board' => '[a-zA-Z]+'));
+
+$routes->post('/:board/delete', function($board) {
+    BoardController::delete($board);
 })->conditions(array('board' => '[a-zA-Z]+'));
 
 $routes->get('/:board', function($board) {

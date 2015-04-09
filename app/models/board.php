@@ -11,6 +11,29 @@ class Board extends BaseModel {
 
     public function __construct($attributes) {
         parent::__construct($attributes);
+        $this->validators = array('validate_name', 'validate_description');
+    }
+
+    public function validate_name() {
+        $length = strlen($this->name);
+        if ($length == 0) {
+            return array('Empty name.');
+        }
+        if ($length > 30) {
+            return array('Too long name: ' . $length . ' > 30.');
+        }
+        return array();
+    }
+
+    public function validate_description() {
+        $length = strlen($this->name);
+        if ($length == 0) {
+            return array('Empty description.');
+        }
+        if ($length > 30) {
+            return array('Too long description: ' . $length . ' > 10000.');
+        }
+        return array();
     }
 
     public static function all() {
@@ -56,6 +79,19 @@ class Board extends BaseModel {
             $board = new Board($b);
         }
         return $board;
+    }
+
+    public function save() {
+        $query = DB::connection()->prepare('INSERT INTO Board (name, description) VALUES (:name, :description) RETURNING id;');
+        $query->execute(array('name' => $this->name,
+            'description' => $this->description));
+        $row = $query->fetch();
+        $this->id = $row['id'];
+    }
+
+    public function delete() {
+        $query = DB::connection()->prepare('DELETE FROM Post WHERE id=:id;');
+        $query->execute(array($this->id));
     }
 
 }

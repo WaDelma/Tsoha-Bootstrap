@@ -2,6 +2,11 @@
 {% block content %}
 <div class="page-header">
     <h1>/{{board.name}}/</h1>
+    {% if admin %}
+    <form method="post" action="{{base_path}}/{{board.name}}/delete">
+        <button type="submit">Delete</button>
+    </form>
+    {% endif %}
     <p>
         {{board.description|escape("markup")|raw}}
     </p>
@@ -19,7 +24,7 @@
     {{message.userid}}
     {% if admin %}
     <form method="post" action="{{base_path}}/ban">
-        <input type="hidden" value="{{message.userid}}"/>
+        <input type="hidden" name="id" value="{{message.userid}}"/>
         <button type="submit">Ban</button>
     </form>
     {% endif %}

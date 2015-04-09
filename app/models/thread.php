@@ -62,8 +62,13 @@ class Thread extends BaseModel {
         $this->id = $row['id'];
     }
 
+    public function delete() {
+        $query = DB::connection()->prepare('DELETE FROM Thread WHERE id=:id;');
+        $query->execute(array($this->id));
+    }
+
     public static function count() {
-        $query = DB::connection()->prepare('SELECT COUNT(*) FROM Thread;');
+        $query = DB::connection()->prepare('SELECT COUNT (*) FROM Thread;');
         $query->execute();
         $row = $query->fetch();
         return $row[0];

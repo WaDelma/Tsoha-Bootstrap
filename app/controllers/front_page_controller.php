@@ -12,7 +12,8 @@ class FrontPageController extends BaseController {
         $users = User::count();
         $posts = Post::count();
         $threads = Thread::count();
-        View::make('home.html', array('boards' => $boards, 'users' => $users, 'posts' => $posts, 'threads' => $threads));
+        $admin = parent::get_user_logged_in();
+        View::make('home.html', array('boards' => $boards, 'users' => $users, 'posts' => $posts, 'threads' => $threads, 'admin' => $admin));
     }
 
 }

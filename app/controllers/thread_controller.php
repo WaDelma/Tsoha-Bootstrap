@@ -20,14 +20,21 @@ class ThreadController extends BaseController {
             $post['userid'] = $user->id;
             $post['threadid'] = $thread;
             $p = new Post($post);
-            $p->save();
-            Redirect::to('/' . $board . '/' . $thread);
+            $errors = $p->errors();
+            if (count($errors) == 0) {
+                $p->save();
+                Redirect::to('/' . $board . '/' . $thread);
+            } else {
+                $t = new Thread(array('id' => $thread));
+                $t->delete();
+                Kint::dump($errors);
+            }
         }
     }
 
     public static function thread($board, $thread) {
         $boards = Board::all();
-        $posts = Post::all($thread);
+        $posts = Post::findForThread($thread);
         $admin = parent::get_user_logged_in();
         View::make('thread.html', array('boards' => $boards, 'board' => $board, 'thread' => $thread, 'messages' => $posts, 'admin' => $admin));
     }

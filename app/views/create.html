@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!--<div class="page-header">
+    <h1>You have been banned!</h1>
+</div>-->
+<p>
+<form method="post" action="{{base_path}}/create">
+    <input type="hidden" name="id" value="{{admin.id}}"/>
+    Name:<br/>
+    <textarea name="name"></textarea><br/>
+    Description:<br/>
+    <textarea name="description"></textarea><br/>
+    <button type="submit">Create</button>
+</form>
+</p>
+{% endblock %}

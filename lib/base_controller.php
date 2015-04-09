@@ -24,7 +24,7 @@ class BaseController {
             if (array_key_exists($key, $_SERVER) === true) {
                 foreach (explode(',', $_SERVER[$key]) as $ip) {
                     $ip = trim($ip);
-                    if (BaseController::checkBan($banned, $ip)) {
+                    if (self::checkBan($banned, $ip)) {
                         return true;
                     }
                 }

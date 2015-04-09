@@ -42,6 +42,9 @@
                         {% for board in boards %}
                         <li><a href="{{base_path}}/{{board.name}}">{{board.name}}</a></li>
                         {% endfor %}
+                        {% if admin %}
+                        <li><a href="{{base_path}}/create">Create new board</a></li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>
@@ -51,8 +54,11 @@
             <!-- Dynaaminen sisältö tulee tähän -->
             {% block content %}{% endblock %}
         </div>
-
+        {% if admin %}
+        <a href="{{base_path}}/logout">Logout</a>
+        {% else %}
         <a href="{{base_path}}/admin">Admin login</a>
+        {% endif %}
 
         {% block body %}
         <!-- jQuery -->
