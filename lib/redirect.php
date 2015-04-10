@@ -15,8 +15,12 @@ class Redirect {
         exit();
     }
 
-    public static function back() {
+    public static function back($message = null) {
+        if (!is_null($message)) {
+            $_SESSION['flash_message'] = json_encode($message);
+        }
         header('Location: ' . $_SERVER['HTTP_REFERER']);
+        exit();
     }
 
 }

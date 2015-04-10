@@ -44,6 +44,10 @@ $routes->post('/:board/delete', function($board) {
     BoardController::delete($board);
 })->conditions(array('board' => '[a-zA-Z]+'));
 
+$routes->post('/:board/edit', function($board) {
+    BoardController::edit($board);
+})->conditions(array('board' => '[a-zA-Z]+'));
+
 $routes->get('/:board', function($board) {
     BoardController::board($board);
 })->conditions(array('board' => '[a-zA-Z]+'));

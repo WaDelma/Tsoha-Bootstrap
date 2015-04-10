@@ -2,11 +2,20 @@ body {
     background-color: #CDC3D9;
     color: #462969;
 }
+
 #main-container{
     max-width: 1200px;
     padding: 10px 25px;
     margin: 0px auto;
     background-color: #A191B6;
+}
+
+#error-container{
+    max-width: 1200px;
+    padding: 10px 25px;
+    margin: 0px auto;
+    background-color: #93BD2F;
+    color: #527501;
 }
 
 .navbar .container-fluid{

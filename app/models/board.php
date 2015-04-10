@@ -26,18 +26,18 @@ class Board extends BaseModel {
     }
 
     public function validate_description() {
-        $length = strlen($this->name);
+        $length = strlen($this->description);
         if ($length == 0) {
             return array('Empty description.');
         }
-        if ($length > 30) {
+        if ($length > 10000) {
             return array('Too long description: ' . $length . ' > 10000.');
         }
         return array();
     }
 
     public static function all() {
-        $query = DB::connection()->prepare("SELECT * FROM Board");
+        $query = DB::connection()->prepare("SELECT * FROM Board ORDER BY id ASC");
         $query->execute();
         $rows = $query->fetchAll();
         $boards = array();
@@ -89,8 +89,13 @@ class Board extends BaseModel {
         $this->id = $row['id'];
     }
 
+    public function update() {
+        $query = DB::connection()->prepare('UPDATE Board SET description=:description WHERE id=:id;');
+        $query->execute(array('id' => $this->id, 'description' => $this->description));
+    }
+
     public function delete() {
-        $query = DB::connection()->prepare('DELETE FROM Post WHERE id=:id;');
+        $query = DB::connection()->prepare('DELETE FROM Board WHERE id=:id;');
         $query->execute(array($this->id));
     }
 

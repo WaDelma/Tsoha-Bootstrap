@@ -27,7 +27,7 @@ class ThreadController extends BaseController {
             } else {
                 $t = new Thread(array('id' => $thread));
                 $t->delete();
-                Kint::dump($errors);
+                Redirect::back(array('errors' => $errors));
             }
         }
     }
@@ -36,7 +36,8 @@ class ThreadController extends BaseController {
         $boards = Board::all();
         $posts = Post::findForThread($thread);
         $admin = parent::get_user_logged_in();
-        View::make('thread.html', array('boards' => $boards, 'board' => $board, 'thread' => $thread, 'messages' => $posts, 'admin' => $admin));
+        View::make('thread.html', array
+            ('boards' => $boards, 'board' => $board, 'thread' => $thread, 'messages' => $posts, 'admin' => $admin));
     }
 
 }

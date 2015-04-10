@@ -8,8 +8,15 @@
     </form>
     {% endif %}
     <p>
-        {{board.description|escape("markup")|raw}}
-    </p>
+        {% if admin %}
+    <form method="post" action="{{base_path}}/{{board.name}}/edit">
+        <textarea name="description">{{board.description}}</textarea><br/>
+        <button type="submit">Edit</button>
+    </form>
+    {% else %}
+    {{board.description|escape("markup")|raw}}
+    {% endif %}
+</p>
 </div>
 <p>
 <form method="post" action="{{base_path}}/{{board.name}}/send">

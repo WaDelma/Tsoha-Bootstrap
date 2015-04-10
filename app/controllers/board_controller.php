@@ -7,6 +7,27 @@
  */
 class BoardController extends BaseController {
 
+    public static function edit($board) {
+        if (parent::isBanned()) {
+            View::make('banned.html');
+        } else {
+            $admin = parent::get_user_logged_in();
+            if ($admin) {
+                $board = Board::findByName($board);
+                $board->description = filter_input(INPUT_POST, 'description');
+                $errors = $board->errors();
+                if (count($errors) === 0) {
+                    $board->update();
+                    Redirect::back();
+                } else {
+                    Redirect::back(array('errors' => $errors));
+                }
+            } else {
+                View::make('failed.html');
+            }
+        }
+    }
+
     public static function send($board) {
         if (parent::isBanned()) {
             View::make('banned.html');
@@ -62,7 +83,7 @@ class BoardController extends BaseController {
                     $board->save();
                     Redirect::to('/' . $name);
                 } else {
-                    Kint::dump($errors);
+                    Redirect::back(array('errors' => $errors));
                 }
             } else {
                 View::make('failed.html');
@@ -86,6 +107,13 @@ class BoardController extends BaseController {
                     $thread->delete();
                 }
                 $board->delete();
+                $users = User::all();
+                foreach ($users as $user) {
+                    $posts = Post::findByUser($user->id);
+                    if (count($posts) === 0) {
+                        $user->delete();
+                    }
+                }
                 Redirect::to('/');
             } else {
                 View::make('failed.html');

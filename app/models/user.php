@@ -13,6 +13,20 @@ class User extends BaseModel {
         parent::__construct($attributes);
     }
 
+    public static function all() {
+        $query = DB::connection()->prepare("SELECT * FROM Useri;");
+        $query->execute();
+        $rows = $query->fetchAll();
+        $users = array();
+        foreach ($rows as $row) {
+            $u = array();
+            parent::add($u, $row, 'id');
+            parent::add($u, $row, 'ip');
+            $users[] = new User($u);
+        }
+        return $users;
+    }
+
     public static function findById($id) {
         $query = DB::connection()->prepare("SELECT * FROM Useri WHERE id = :id LIMIT 1");
         $query->execute(array('id' => $id));
@@ -49,7 +63,7 @@ class User extends BaseModel {
     }
 
     public function delete() {
-        $query = DB::connection()->prepare('DELETE FROM User WHERE id=:id;');
+        $query = DB::connection()->prepare('DELETE FROM Useri WHERE id=:id;');
         $query->execute(array($this->id));
     }
 
