@@ -1,4 +1,4 @@
-# Tietokantasovelluksen esittelysivu
+﻿# Tietokantasovelluksen esittelysivu
 
 Yleisiä linkkejä:
 
@@ -8,3 +8,7 @@ Yleisiä linkkejä:
 ## Työn aihe
 
 Yksinkertainen lauta johon käyttäjät voivat luoda lankoja ja lähettää viestejä niihin.
+
+## Tunnukset
+Nimi: minad
+Salasana: coolstuff
