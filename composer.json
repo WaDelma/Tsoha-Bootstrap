@@ -11,6 +11,7 @@
         "slim/slim": "2.*",
         "twig/twig": "~1.8",
         "raveren/kint": "v0.9",
+        "zeuxisoo/slim-whoops": "0.3.0",
         "erusev/parsedown": "1.5.2"
     }
 }
