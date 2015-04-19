@@ -10,5 +10,8 @@ Yleisiä linkkejä:
 Yksinkertainen lauta johon käyttäjät voivat luoda lankoja ja lähettää viestejä niihin.
 
 ## Tunnukset
-Nimi: minad
-Salasana: coolstuff
+<pre>
+Nimi   Salasana
+ad_min 1qaz2wsx
+minad  zaq1xsw2
+</pre>
