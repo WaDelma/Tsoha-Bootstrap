@@ -4,7 +4,8 @@ CREATE TABLE Admin
 id SERIAL PRIMARY KEY,
 name varchar(30),
 email varchar(30),
-hash varchar(100) NOT NULL
+hash varchar(100) NOT NULL,
+super Boolean DEFAULT false
 );
 
 CREATE TABLE Board
@@ -14,7 +15,7 @@ name varchar(30) NOT NULL,
 description varchar(10000)
 );
 
-CREATE TABLE BoardAdmin
+CREATE TABLE AdminBoard
 (
 adminId INTEGER REFERENCES Admin(id),
 boardId INTEGER REFERENCES Board(id),

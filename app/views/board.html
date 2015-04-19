@@ -2,13 +2,13 @@
 {% block content %}
 <div class="page-header">
     <h1>/{{board.name}}/</h1>
-    {% if admin %}
+    {% if control %}
     <form method="post" action="{{base_path}}/{{board.name}}/delete">
         <button type="submit">Delete</button>
     </form>
     {% endif %}
     <p>
-        {% if admin %}
+        {% if control %}
     <form method="post" action="{{base_path}}/{{board.name}}/edit">
         <textarea name="description">{{board.description}}</textarea><br/>
         <button type="submit">Edit</button>
@@ -29,7 +29,7 @@
 {% for message in content %}
 <div class="post">
     {{message.userid}}
-    {% if admin %}
+    {% if control %}
     <form method="post" action="{{base_path}}/ban">
         <input type="hidden" name="id" value="{{message.userid}}"/>
         <button type="submit">Ban</button>

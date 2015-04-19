@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-header">
+    <h1></h1>
+</div>
+<p>
+<form method="post" action="{{base_path}}/manage/boards">
+    <table style="width:100%">
+        <tr>
+            <th></th>
+            {% for board in boards %}
+            <th>{{board.name}}</th>
+            {% endfor %}
+        </tr>
+        {% for a in admins %}
+        <tr>
+            <th>{{a.name}}</th>
+            {% for board in boards %}
+            <td><input type="checkbox" name="adminboard[{{a.id}}][{{board.id}}]" {% if adminBoard[a.id][board.id] %} checked {% endif %}}/></td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+    <button type="submit">Save</button>
+</form>
+</p>
+{% endblock %}

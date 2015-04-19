@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-header">
+    <h1></h1>
+</div>
+<p>
+<form method="post" action="{{base_path}}/manage/change">
+    <input type="hidden" name="id" value="{{id}}"/>
+    Password:<br/>
+    <input type="password" name="old"/><br/>
+    New password:<br/>
+    <input type="password" name="new"/><br/>
+    <input type="password" name="confirm"/><br/>
+    <button type="submit">Change</button>
+</form>
+</p>
+{% endblock %}

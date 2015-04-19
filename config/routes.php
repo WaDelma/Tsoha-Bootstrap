@@ -1,5 +1,9 @@
 <?php
 
+//$routes->get('/sandbox', function() {
+//    echo AdminController::hash('minad', 'zaq1xsw2');
+//});
+
 $routes->get('/', function() {
     FrontPageController::frontpage();
 });
@@ -14,6 +18,38 @@ $routes->get('/create', function() {
 
 $routes->post('/admin', function() {
     AdminController::login();
+});
+
+$routes->post('/manage/boards', function() {
+    BoardController::saveManageBoards();
+});
+
+$routes->get('/manage/boards', function() {
+    BoardController::manageBoards();
+});
+
+$routes->post('/manage/create', function() {
+    AdminController::createAdmin();
+});
+
+$routes->get('/manage/create', function() {
+    AdminController::create();
+});
+
+$routes->post('/manage/delete', function() {
+    AdminController::delete();
+});
+
+$routes->post('/manage/change', function() {
+    AdminController::changePassword();
+});
+
+$routes->get('/manage/change/:id', function($id) {
+    AdminController::change($id);
+});
+
+$routes->get('/manage', function() {
+    AdminController::manage();
 });
 
 $routes->get('/logout', function() {

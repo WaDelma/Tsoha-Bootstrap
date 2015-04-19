@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-header">
+    <h1></h1>
+</div>
+<p>
+<table style="width:100%">
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Super</th>
+        <th>Password</th>
+    </tr>
+    {% for a in admins %}
+    <tr>
+        <td>{{a.name}}</td>
+        <td>{{a.email}}</td>
+        <td>{%if a.super %}true{% else %}false{% endif %}</td>
+        <td>
+            {% if admin.super or a.id == admin.id%}
+            <a href='{{base_path}}/manage/change/{{a.id}}'>Change</a>
+            {% endif %}
+        </td>
+        <td>
+            {% if admin.super or a.id == admin.id%}
+            <form method="post" action="{{base_path}}/manage/delete">
+                <input type="hidden" name="id" value="{{a.id}}"/>
+                <button>Delete</button>
+            </form>
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor%}
+</table>
+{% if admin.super %}
+<a href='{{base_path}}/manage/create'>Create</a>
+{% endif %}
+</p>
+{% endblock %}

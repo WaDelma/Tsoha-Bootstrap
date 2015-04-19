@@ -11,9 +11,17 @@ class BaseController {
         return null;
     }
 
-    public static function check_logged_in() {
-        // Toteuta kirjautumisen tarkistus tähän.
-        // Jos käyttäjä ei ole kirjautunut sisään, ohjaa hänet toiselle sivulle (esim. kirjautumissivulle).
+    public static function checkLogged() {
+        if (!isset($_SESSION['user'])) {
+            View::make('failed.html');
+        }
+    }
+
+    public static function checkBanned() {
+        if (self::isBanned()) {
+            View::make('banned.html');
+            exit();
+        }
     }
 
     public static function isBanned() {

@@ -1,7 +1,9 @@
 -- Lisää INSERT INTO lauseet tähän tiedostoon
-INSERT INTO Admin (name, email, hash) VALUES ('minad', 'l33t@exam.ple', '$2a$07$raDj0hOULOZhSvY5DTuhEuu8rUREYzzbVjZveDQhUvAtyOMGkbhpS');
+INSERT INTO Admin (name, email, hash, super) VALUES ('minad', 'l33t@exam.ple', '$2a$07$pKTBHcqlznn37hRGQOOFzu9.i.CxpUU8n0cVS/aXg8QVY99Z0fEgW', false);
+INSERT INTO Admin (name, email, hash, super) VALUES ('ad_min', 'l33test@exam.ple', '$2a$07$nQ4gUb2auEHq0h8AHiLYFueChXdBhJlgswJ46sF.S4UJVg6Ex7o5G', true);
 INSERT INTO Board (name, description) VALUES ('v', '!!vidya gaimz!!');
 INSERT INTO Board (name, description) VALUES ('pol', 'Such correct');
+INSERT INTO AdminBoard (adminId, boardId) VALUES (1, 1);
 INSERT INTO Thread (boardId) VALUES (1);
 INSERT INTO Thread (boardId) VALUES (1);
 INSERT INTO Thread (boardId) VALUES (2);
