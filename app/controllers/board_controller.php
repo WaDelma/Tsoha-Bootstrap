@@ -55,7 +55,7 @@ class BoardController extends BaseController {
     public static function create() {
         parent::checkBanned();
         $admin = parent::get_user_logged_in();
-        if ($admin && $admin->hasControl($board)) {
+        if ($admin) {
             $boards = Board::all();
             View::make('create.html', array('boards' => $boards, 'admin' => $admin));
         } else {
@@ -86,8 +86,8 @@ class BoardController extends BaseController {
     public static function delete($name) {
         parent::checkBanned();
         $admin = parent::get_user_logged_in();
+        $board = Board::findByName($name);
         if ($admin && $admin->hasControl($board)) {
-            $board = Board::findByName($name);
             $threads = Thread::findForBoard($board->id);
             foreach ($threads as $thread) {
                 $posts = Post::findForThread($thread->id);
