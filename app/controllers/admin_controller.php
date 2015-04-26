@@ -16,7 +16,7 @@ class AdminController extends BaseController {
         parent::checkLogged();
         if ($_SESSION['user']) {
             $_SESSION['user'] = null;
-            Redirect::back();
+            Redirect::to('/');
         } else {
             View::make('failed.html');
         }
@@ -27,7 +27,7 @@ class AdminController extends BaseController {
         $name = filter_input(INPUT_POST, 'name');
         $password = filter_input(INPUT_POST, 'password');
         $admin = Admin::findByName($name);
-        if ($admin->checkPassword($password)) {
+        if ($admin && $admin->checkPassword($password)) {
             $_SESSION['user'] = $admin->id;
             Redirect::to('/');
         } else {
@@ -46,24 +46,10 @@ class AdminController extends BaseController {
 
     public static function banUser($user) {
         if ($user) {
-            $posts = Post::findByUser($user->id);
-            foreach ($posts as $post) {
-                $post->delete();
-            }
-            self::deleteEmptyThreads();
+            $user->delete();
+            Thread::deleteEmpty();
             $ban = new Banned(array('ip' => $user->ip));
             $ban->save();
-            $user->delete();
-        }
-    }
-
-    public static function deleteEmptyThreads() {
-        $threads = Thread::all();
-        foreach ($threads as $thread) {
-            $posts = Post::findForThread($thread->id);
-            if (count($posts) === 0) {
-                $thread->delete();
-            }
         }
     }
 
@@ -123,6 +109,9 @@ class AdminController extends BaseController {
         if ($admin && ($admin->super || $admin->id === (int) $id)) {
             $target = Admin::find($id);
             $target->delete();
+            if ($admin->id === (int) $id) {
+                AdminController::logout();
+            }
             Redirect::to('/manage');
         } else {
             Redirect::back(array('errors' => array('No permission to delete admin')));

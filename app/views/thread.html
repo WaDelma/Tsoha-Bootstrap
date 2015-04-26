@@ -4,7 +4,14 @@
     <h1>/{{board.name}}/</h1>
 </div>
 <p>
-    {% for message in messages %}
+<h2>{{thread.title}}</h2>
+{% if control %}
+<form method="post" action="{{base_path}}/{{board.name}}/{{thread.id}}/delete">
+    <button type="submit">Delete</button>
+</form>
+{% endif %}
+{% include 'pager.html' with {'url': board.name ~ '/' ~ thread.id} %}
+{% for message in messages %}
 <div class="post">
     {{message.userid}}
     {% if control %}
@@ -16,7 +23,7 @@
     {{message.content|escape("markup")|raw}}
 </div>
 {% endfor %}
-<form method="post" action="{{base_path}}/{{board.name}}/{{thread}}/send">
+<form method="post" action="{{base_path}}/{{board.name}}/{{thread.id}}/send">
     Create message:<br>
     <textarea name="content"></textarea><br>
     <button type="submit">Send</button>

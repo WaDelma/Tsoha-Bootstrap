@@ -95,6 +95,15 @@ class Board extends BaseModel {
     }
 
     public function delete() {
+        $query = DB::connection()->prepare('DELETE FROM POST WHERE threadid IN (SELECT id FROM Thread WHERE boardid=:id);');
+        $query->execute(array($this->id));
+
+        $query = DB::connection()->prepare('DELETE FROM Thread WHERE boardid=:id;');
+        $query->execute(array($this->id));
+
+        $query = DB::connection()->prepare('DELETE FROM AdminBoard WHERE boardid=:id;');
+        $query->execute(array($this->id));
+
         $query = DB::connection()->prepare('DELETE FROM Board WHERE id=:id;');
         $query->execute(array($this->id));
     }

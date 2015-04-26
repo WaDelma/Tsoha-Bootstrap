@@ -20,14 +20,6 @@ $routes->post('/admin', function() {
     AdminController::login();
 });
 
-$routes->post('/manage/boards', function() {
-    BoardController::saveManageBoards();
-});
-
-$routes->get('/manage/boards', function() {
-    BoardController::manageBoards();
-});
-
 $routes->post('/manage/create', function() {
     AdminController::createAdmin();
 });
@@ -64,8 +56,20 @@ $routes->post('/ban', function() {
     AdminController::ban();
 });
 
+$routes->post('/manage/boards', function() {
+    ManageBoardsController::saveManageBoards();
+});
+
+$routes->get('/manage/boards', function() {
+    ManageBoardsController::manageBoards();
+});
+
 $routes->post('/:board/:thread/send', function($board, $thread) {
     ThreadController::send($board, $thread);
+})->conditions(array('board' => '[a-zA-Z]+', 'thread' => '[0-9]+'));
+
+$routes->post('/:board/:thread/delete', function($board, $thread) {
+    ThreadController::delete($board, $thread);
 })->conditions(array('board' => '[a-zA-Z]+', 'thread' => '[0-9]+'));
 
 $routes->get('/:board/:thread', function($board, $thread) {

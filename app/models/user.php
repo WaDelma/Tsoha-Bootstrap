@@ -62,13 +62,21 @@ class User extends BaseModel {
         return new User(array('ip' => $ip, 'id' => $row['id']));
     }
 
+    public static function deleteEmpty() {
+        $query = DB::connection()->prepare('DELETE FROM Useri as u WHERE (SELECT COUNT(*) FROM Post WHERE userid=u.id) = 0;');
+        $query->execute();
+    }
+
     public function delete() {
+        $query = DB::connection()->prepare('DELETE FROM Post WHERE userid=:id;');
+        $query->execute(array($this->id));
+
         $query = DB::connection()->prepare('DELETE FROM Useri WHERE id=:id;');
         $query->execute(array($this->id));
     }
 
     public static function count() {
-        $query = DB::connection()->prepare('SELECT COUNT (*) FROM Useri;');
+        $query = DB::connection()->prepare('SELECT COUNT(*) FROM Useri;');
         $query->execute();
         $row = $query->fetch();
         return $row[0];

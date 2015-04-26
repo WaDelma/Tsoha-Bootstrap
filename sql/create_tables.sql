@@ -31,6 +31,7 @@ ip varchar(25) NOT NULL
 CREATE TABLE Thread
 (
 id SERIAL PRIMARY KEY,
+title varchar(30),
 boardId INTEGER REFERENCES Board(id)
 );
 

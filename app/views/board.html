@@ -21,26 +21,38 @@
 <p>
 <form method="post" action="{{base_path}}/{{board.name}}/send">
     Create thread:<br>
+    <input type="text" name="title"/><br/>
     <textarea name="content"></textarea><br>
     <button type="submit">Send</button>
 </form>
-{% for thread, content in threads %}
-<a href="{{base_path}}/{{board.name}}/{{thread}}">{{thread}}</a><br/>
-{% for message in content %}
-<div class="post">
-    {{message.userid}}
+{% include 'pager.html' with {'url': board.name} %}
+{% for threadid, thread in threads %}
+<div class="thread">
+    <a href="{{base_path}}/{{board.name}}/{{threadid}}">{{thread.title}}</a><br/>
     {% if control %}
-    <form method="post" action="{{base_path}}/ban">
-        <input type="hidden" name="id" value="{{message.userid}}"/>
-        <button type="submit">Ban</button>
+    <form method="post" action="{{base_path}}/{{board.name}}/{{threadid}}/delete">
+        <button type="submit">Delete</button>
     </form>
     {% endif %}
-    {{message.content|escape("markup")|raw}}
+    {% for message in thread.posts %}
+    <div class="post">
+        {{message.userid}}
+        {% if control %}
+        <form method="post" action="{{base_path}}/ban">
+            <input type="hidden" name="id" value="{{message.userid}}"/>
+            <button type="submit">Ban</button>
+        </form>
+        {% endif %}
+        {{message.content|escape("markup")|raw}}
+    </div>
+    {% endfor %}
+    {% if thread.count %}
+    ...({{thread.count}})<br/>
+    {% endif %}
 </div>
-
-{% endfor %}
 {% else %}
 No threads in this board.
 {% endfor %}
+
 </p>
 {% endblock %}

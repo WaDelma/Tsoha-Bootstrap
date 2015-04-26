@@ -25,25 +25,9 @@ class Post extends BaseModel {
         return array();
     }
 
-    public static function findForThread($thread) {
-        $query = DB::connection()->prepare("SELECT * FROM Post WHERE threadid = :threadid ORDER BY id ASC");
-        $query->execute(array('threadid' => $thread));
-        $rows = $query->fetchAll();
-        $posts = array();
-        foreach ($rows as $row) {
-            $post = array();
-            parent::add($post, $row, 'id');
-            parent::add($post, $row, 'threadid');
-            parent::add($post, $row, 'userid');
-            parent::add($post, $row, 'content');
-            $posts[] = new Post($post);
-        }
-        return $posts;
-    }
-
-    public static function findNewestForThread($thread, $limit) {
-        $query = DB::connection()->prepare("SELECT * FROM Post WHERE threadid = :threadid ORDER BY id ASC LIMIT :limit");
-        $query->execute(array('threadid' => $thread->id, 'limit' => $limit));
+    public static function findForThread($thread, $page, $pagesize) {
+        $query = DB::connection()->prepare("SELECT * FROM Post WHERE threadid = :threadid ORDER BY id ASC LIMIT :limit OFFSET :offset");
+        $query->execute(array('threadid' => $thread->id, 'limit' => $pagesize, 'offset' => $pagesize * ($page - 1)));
         $rows = $query->fetchAll();
         $posts = array();
         foreach ($rows as $row) {
@@ -90,6 +74,13 @@ class Post extends BaseModel {
     public static function count() {
         $query = DB::connection()->prepare('SELECT COUNT (*) FROM Post;');
         $query->execute();
+        $row = $query->fetch();
+        return $row[0];
+    }
+
+    public static function countForThread($thread) {
+        $query = DB::connection()->prepare('SELECT COUNT (*) FROM Post WHERE threadid=:id;');
+        $query->execute(array('id' => $thread->id));
         $row = $query->fetch();
         return $row[0];
     }

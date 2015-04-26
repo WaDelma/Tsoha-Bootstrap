@@ -25,35 +25,61 @@ Adminit:
 \begin{itemize}
 \item Ne jotka hallitsevat lautoja
 \end{itemize}
+Super Adminit:
+\begin{itemize}
+\item Ne jotka hallitsevat admineja
+\end{itemize}
 \section{Käyttötapaukset}
 \begin{center}
-\begin{emp}[tapaukset](200, 100)
-Usecase.C("Creating thread");
-C.ne = (.5w, 0);
-Usecase.S("Sending message");
-S.ne = (.5w, .25h);
-Usecase.D("Deleting thread");
-D.ne = (.5w, .5h);
-Usecase.B("Banning IP");
-B.ne = (.5w, .75h);
-Usecase.L("Login");
-L.ne = (.5w, h);
-Actor.U("User");
-U.ne = (0, .25h);
-Actor.A("Admin");
-A.ne = (w, .5h);
-drawObjects(C, S, U, A, D, B, L);
-link(association)(U.e -- C.w);
-link(association)(U.e -- S.w);
-link(association)(A.w -- C.e);
-link(association)(A.w -- S.e);
-link(association)(A.w -- D.e);
-link(association)(A.w -- L.e);
+\begin{emp}[tapaukset](200, 200)
+Usecase.T_CREAT("Creating thread");
+T_CREAT.ne = (.5w, 0);
+Usecase.M_SEND("Sending message");
+M_SEND.ne = (.5w, .16h);
+Usecase.T_DEL("Deleting thread");
+T_DEL.ne = (.5w, .33h);
+Usecase.BAN("Banning IP");
+BAN.ne = (.5w, .5h);
+Usecase.LOGIN("Login");
+LOGIN.ne = (.5w, .66h);
+Usecase.A_CREAT("Admin creation");
+A_CREAT.ne = (.5w, .83h);
+Usecase.A_ASSIGN("Admin assigment");
+A_ASSIGN.ne = (.5w, h);
+Actor.USER("User");
+USER.ne = (0, .25h);
+Actor.ADMIN("Admin");
+ADMIN.ne = (w, .25h);
+Actor.S_ADMIN("Super Admin");
+S_ADMIN.ne = (w, .75h);
+drawObjects(T_CREAT, M_SEND, USER, ADMIN, T_DEL, BAN, LOGIN, S_ADMIN, A_CREAT, A_ASSIGN);
+link(association)(USER.e -- T_CREAT.w);
+link(association)(USER.e -- M_SEND.w);
+link(association)(ADMIN.w -- T_CREAT.e);
+link(association)(ADMIN.w -- M_SEND.e);
+link(association)(ADMIN.w -- T_DEL.e);
+link(association)(ADMIN.w -- BAN.e);
+link(association)(ADMIN.w -- LOGIN.e);
+link(association)(S_ADMIN.w -- T_CREAT.e);
+link(association)(S_ADMIN.w -- M_SEND.e);
+link(association)(S_ADMIN.w -- T_DEL.e);
+link(association)(S_ADMIN.w -- BAN.e);
+link(association)(S_ADMIN.w -- LOGIN.e);
+link(association)(S_ADMIN.w -- A_CREAT.e);
+link(association)(S_ADMIN.w -- A_ASSIGN.e);
 \end{emp}
 \end{center}
 Login:
 \begin{itemize}
 \item Admin tunnistautuu kirjautumalla sisään
+\end{itemize}
+Admin assignment:
+\begin{itemize}
+\item Super Admin säätää mitä boardeja kukakin admin kontrolloi
+\end{itemize}
+Admin creation:
+\begin{itemize}
+\item Super Admin luo uuden admin tunnuksen
 \end{itemize}
 Banning IP:
 \begin{itemize}
@@ -102,23 +128,23 @@ item(iAssoc)("1..*")(obj.ne = M.w);
 \begin{center}
 \begin{emp}[kanta](200, 150)
 Class.H("Thread")("<<key>> id: int",
-				 "<<fkey>> boardId: String")();
+				 "<<fkey>> boardId: String",
+				 "title: String")();
 H.ne = (w, h);
 Class.R("Board")("<<key>> id: String",
 				"description: String")();
 R.ne = (0, 0);
-Class.Q("BoardAdmin")("<<key>> id",
+Class.Q("AdminBoard")("<<key>> id",
 					 "<<fkey>> adminId: String",
 					 "<<fkey>> boardId: String")();
 Q.ne = (.15w, .45h);
 Class.N("Admin")("<<key>> name: String",
 				"email: String",
-				"hash: int",
-				"salt: int")();
+				"hash: int")();
 N.ne = (0, h);
 Class.J("Post")("<<key>> id: int",
 				"<<fkey>> threadId: int",
-				"<<fkey>> userID",
+				"<<fkey>> userId",
 				"content: String")();
 J.ne = (w, .55h);
 Class.W("User")("<<key>> id: int",

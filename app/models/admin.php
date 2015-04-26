@@ -114,6 +114,9 @@ class Admin extends BaseModel {
     }
 
     public function delete() {
+        $query = DB::connection()->prepare('DELETE FROM AdminBoard WHERE adminid=:id;');
+        $query->execute(array($this->id));
+
         $query = DB::connection()->prepare('DELETE FROM Admin WHERE id=:id;');
         $query->execute(array($this->id));
     }

@@ -30,26 +30,46 @@ class BoardController extends BaseController {
             View::make('banned.html');
         } else {
             $b = Board::findByName($board);
-            $thread = new Thread(array('boardid' => $b->id));
-            $thread->save();
-            ThreadController::send($board, $thread->id);
+            $thread = new Thread(array('boardid' => $b->id, 'title' => filter_input(INPUT_POST, 'title')));
+            $errors = $thread->errors();
+            if (count($errors) == 0) {
+                $thread->save();
+                ThreadController::send($board, $thread->id);
+            } else {
+                Redirect::back(array('errors' => $errors));
+            }
         }
     }
 
-    public static function board($board) {
-        $b = Board::findByName($board);
-        if (!$b) {
-            Redirect::to('/');
+    public static function board($boardid) {
+        $data = array();
+        $board = Board::findByName($boardid);
+        if (!$board) {
+            Redirect::to('/', array('errors' => array('Board doesn\'t exist')));
         }
-        $boards = Board::all();
-        $threads = Thread::findForBoard($b->id);
+        $data['board'] = $board;
+        $data['boards'] = Board::all();
+        $page_size = 10;
+        Pager::page($data, Thread::countForBoard($board), $page_size);
+        $threads = Thread::findForBoard($board, $data['cur_page'], $page_size);
         $ts = array();
         foreach ($threads as $thread) {
-            $ts[$thread->id] = Post::findNewestForThread($thread, 3);
+            $limit = 3;
+            $posts = Post::findForThread($thread, 1, $limit);
+            $p = array('title' => $thread->title, 'posts' => $posts);
+            $count = Post::countForThread($thread);
+            if ($count > $limit) {
+                $p['count'] = $count;
+            }
+            $ts[$thread->id] = $p;
         }
+        $data['threads'] = $ts;
         $admin = parent::get_user_logged_in();
-        $control = $admin && $admin->hasControl($b);
-        View::make('board.html', array('boards' => $boards, 'board' => $b, 'threads' => $ts, 'admin' => $admin, 'control' => $control));
+        $data['admin'] = $admin;
+        if ($admin) {
+            $data['control'] = $admin->hasControl($board);
+        }
+        View::make('board.html', $data);
     }
 
     public static function create() {
@@ -73,7 +93,7 @@ class BoardController extends BaseController {
             $errors = $board->errors();
             if (count($errors) === 0) {
                 $board->save();
-                //TODO: Creator of a board should be able to control it
+                AdminBoard::own($admin, $board);
                 Redirect::to('/' . $name);
             } else {
                 Redirect::back(array('errors' => $errors));
@@ -88,52 +108,12 @@ class BoardController extends BaseController {
         $admin = parent::get_user_logged_in();
         $board = Board::findByName($name);
         if ($admin && $admin->hasControl($board)) {
-            $threads = Thread::findForBoard($board->id);
-            foreach ($threads as $thread) {
-                $posts = Post::findForThread($thread->id);
-                foreach ($posts as $post) {
-                    $post->delete();
-                }
-                $thread->delete();
-            }
             $board->delete();
-            $users = User::all();
-            foreach ($users as $user) {
-                $posts = Post::findByUser($user->id);
-                if (count($posts) === 0) {
-                    $user->delete();
-                }
-            }
+            User::deleteEmpty();
             Redirect::to('/');
         } else {
             Redirect::back(array('errors' => array('No permission to delete board')));
         }
-    }
-
-    public static function manageBoards() {
-        parent::checkBanned();
-        $admin = parent::get_user_logged_in();
-        if ($admin && $admin->super) {
-            $boards = Board::all();
-            $admins = Admin::all();
-            $admin = parent::get_user_logged_in();
-            $adminBoard = AdminBoard::all();
-            View::make('manageBoards.html', array('boards' => $boards, 'admins' => $admins, 'admin' => $admin, 'adminBoard' => $adminBoard));
-        } else {
-            Redirect::back(array('errors' => array('No permission to manage boards')));
-        }
-    }
-
-    public static function saveManageBoards() {
-        $ab = array();
-        foreach ($_POST['adminboard'] as $a => $b) {
-            foreach ($b as $c => $d) {
-                $ab[$a][$c] = true;
-            }
-        }
-        $adminboard = new AdminBoard(array('adminBoard' => $ab));
-        $adminboard->save();
-        Redirect::back();
     }
 
 }

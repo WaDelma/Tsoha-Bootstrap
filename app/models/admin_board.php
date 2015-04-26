@@ -24,6 +24,11 @@ class AdminBoard extends BaseModel {
         return $admin;
     }
 
+    public static function own($admin, $board) {
+        $query = DB::connection()->prepare("INSERT INTO AdminBoard (boardId, adminId) VALUES (:boardid, :adminid);");
+        $query->execute(array('boardid' => $board->id, 'adminid' => $admin->id));
+    }
+
     public function save() {
         $query = DB::connection()->prepare("DELETE FROM AdminBoard;");
         $query->execute();

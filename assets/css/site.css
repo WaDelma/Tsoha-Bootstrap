@@ -3,30 +3,114 @@ body {
     color: #462969;
 }
 
-#main-container{
+#main-container {
     max-width: 1200px;
     padding: 10px 25px;
     margin: 0px auto;
     background-color: #A191B6;
 }
 
-#error-container{
+#error-container {
     max-width: 1200px;
     padding: 10px 25px;
     margin: 0px auto;
-    background-color: #93BD2F;
-    color: #527501;
+    background-color: #6FB38E;
+    color: #462969;
 }
 
-.navbar .container-fluid{
+.navbar, .container-fluid {
     max-width: 1200px;
     margin: 0px auto;
     background-color: #C4DCCF;
 }
 
+.pagination {
+    height: 36px;
+    margin: 18px 0;
+}
+.pagination ul {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack*/
+
+    *zoom: 1;
+    margin-left: 0;
+    margin-bottom: 0;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    color: #462969;
+}
+.pagination li {
+    display: inline;
+    color: #462969;
+}
+.pagination li a {
+    float: left;
+    padding: 0 14px;
+    line-height: 34px;
+    text-decoration: none;
+    border: 1px solid #4F8F6B;
+    border-left-width: 0;
+    background-color: #C4DCCF;
+    color: #462969;
+}
+.pagination li a:hover {
+    background-color: #9DC4AF;//#74AB8C;//C4DCCF;
+    border: 1px solid #4F8F6B;
+    color: #462969;
+}
+.pagination .active a {
+    color: #462969;
+    border: 1px solid #4F8F6B;
+    background-color: #6FB38E;
+    cursor: default;
+}
+
+.pagination .active a:hover {
+    color: #462969;
+    background-color: #9DC4AF;
+    border: 1px solid #4F8F6B;
+    cursor: default;
+}
+.pagination .disabled a,
+.pagination .disabled a:hover {
+    border: 1px solid #C8CCCB;
+}
+.pagination .disabled span,
+.pagination .disabled a,
+.pagination .disabled a:hover {
+    color: #462969;
+    background-color: #A3B8B1;
+    cursor: default;
+}
+.pagination li:first-child a {
+    border-left-width: 1px;
+    -webkit-border-radius: 3px 0 0 3px;
+    -moz-border-radius: 3px 0 0 3px;
+    border-radius: 3px 0 0 3px;
+}
+.pagination li:last-child a {
+    -webkit-border-radius: 0 3px 3px 0;
+    -moz-border-radius: 0 3px 3px 0;
+    border-radius: 0 3px 3px 0;
+}
+
 .post {
     color: #270854;
+    /*background-color: #7D679A;*/
+    background-color: #9380AB;
+}
+
+.thread {
+    color: #341561;
+    padding: 1px 3px;
     background-color: #7D679A;
+    //background-color: #9380AB;
+    //border: 1px solid #9380AB;//#7D679A;//#C8CCCB;
 }
 
 a {

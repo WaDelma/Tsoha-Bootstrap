@@ -23,25 +23,48 @@ class ThreadController extends BaseController {
             $p->save();
             Redirect::to('/' . $board . '/' . $thread);
         } else {
-            $t = new Thread(array('id' => $thread));
-            $t->delete();
+            Thread::deleteEmpty();
             Redirect::back(array('errors' => $errors));
         }
     }
 
-    public static function thread($board, $thread) {
+    public static function delete($name, $threadid) {
+        parent::checkBanned();
+        $admin = parent::get_user_logged_in();
+        $board = Board::findByName($name);
+        if ($admin && $admin->hasControl($board)) {
+            $thread = Thread::find($threadid);
+            $thread->delete();
+            User::deleteEmpty();
+            Redirect::back();
+        } else {
+            Redirect::back(array('errors' => array('No permission to delete board')));
+        }
+    }
+
+    public static function thread($board, $threadid) {
+        $data = array();
         $b = Board::findByName($board);
         if (!$b) {
-            Redirect::to('/');
+            Redirect::to('/', array('errors' => array('Board doesn\'t exist')));
         }
-        $boards = Board::all();
-        $posts = Post::findForThread($thread);
-        if (count($posts) == 0) {
-            Redirect::to('/' . $board);
+        $data['board'] = $b;
+        $thread = Thread::find($threadid);
+        if (!$thread) {
+            Redirect::to('/' . $board, array('errors' => array('Thread doesn\'t exist')));
         }
+        $data['thread'] = $thread;
+        $data['boards'] = Board::all();
+
+        $page_size = 10;
+        Pager::page($data, Post::countForThread($thread), $page_size);
+        $data['messages'] = Post::findForThread($thread, $data['cur_page'], $page_size);
         $admin = parent::get_user_logged_in();
-        $control = $admin && $admin->hasControl($b);
-        View::make('thread.html', array('boards' => $boards, 'board' => $b, 'thread' => $thread, 'messages' => $posts, 'admin' => $admin, 'control' => $control));
+        if ($admin) {
+            $data['control'] = $admin->hasControl($b);
+        }
+        $data['admin'] = $admin;
+        View::make('thread.html', $data);
     }
 
 }

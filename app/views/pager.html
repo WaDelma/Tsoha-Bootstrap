@@ -1,0 +1,23 @@
+{% if pages > 1 %}
+<nav>
+    <ul class="pagination">
+        <li class="{% if not prev_page %} disabled {% endif %}">
+            <a {% if  prev_page %}href="{{base_path}}/{{url}}?page={{prev_page}}"{% endif %}>
+                <span aria-hidden="true">«</span>
+                <span class="sr-only">Previous</span>
+            </a>
+        </li>
+        {% for page in 1..pages %}
+        <li class="{% if cur_page == page %}active{% endif %}">
+            <a href="{{base_path}}/{{url}}?page={{page}}">{{page}}</a>
+        </li>
+        {% endfor %}
+        <li class="{% if not next_page %} disabled {% endif %}">
+            <a {% if next_page %} href="{{base_path}}/{{url}}?page={{next_page}}"{% endif %}>
+                <span aria-hidden="true">»</span>
+                <span class="sr-only">Next</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+{% endif %}
